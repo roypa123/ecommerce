@@ -13,7 +13,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 
-const SERVER_PORT = 4000;
+const SERVER_PORT = 4001;
 
 export function start(app: Application): void {
   securityMiddleware(app);

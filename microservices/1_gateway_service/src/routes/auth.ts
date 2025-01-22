@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import { SignIn } from '@gateway/controllers/auth/signin';
 
 
 class AuthRoutes {
@@ -9,7 +10,7 @@ class AuthRoutes {
   }
 
   public routes(): Router {
-    // this.router.post('',);
+    this.router.post('/auth/signin', SignIn.prototype.read);
     return this.router;
   }
 
