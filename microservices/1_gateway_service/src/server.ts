@@ -3,15 +3,17 @@ import { Logger } from "winston";
 import http from 'http';
 import { StatusCodes } from 'http-status-codes';
 import { isAxiosError } from 'axios';
-
-
-
-
+import compression from 'compression';
+import { appRoutes } from './routes';
+import cookieSession from 'cookie-session';
+import { config } from '@gateway/config';
+import hpp from 'hpp';
+import helmet from 'helmet';
+import cors from 'cors';
 
 
 const SERVER_PORT = 4000;
 const DEFAULT_ERROR_CODE = 500;
-
 
 
 export class GatewayServer {
@@ -22,11 +24,49 @@ export class GatewayServer {
   }
 
   public start(): void {
-
+    this.securityMiddleware(this.app);
+    this.standardMiddleware(this.app);
+    this.routesMiddleware(this.app);
     this.errorHandler(this.app);
     this.startServer(this.app);
 
   }
+
+  private securityMiddleware(app: Application): void {
+    app.set('trust proxy', 1);
+    app.use(
+      cookieSession({
+        name: 'session',
+        keys: [`${config.SECRET_KEY_ONE}`, `${config.SECRET_KEY_TWO}`],
+        maxAge: 24 * 7 * 3600000,
+        secure: config.NODE_ENV !== 'development',
+        ...(config.NODE_ENV !== 'development' && {
+          sameSite: 'none'
+        })
+      })
+    );
+    app.use(hpp());
+    app.use(helmet());
+    app.use(cors({
+      origin: config.CLIENT_URL,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+    }));
+
+
+  }
+
+  private standardMiddleware(app: Application): void {
+    app.use(compression());
+    app.use(json({ limit: '200mb' }));
+    app.use(urlencoded({ extended: true, limit: '200mb' }))
+  }
+
+  private routesMiddleware(app: Application): void {
+    appRoutes(app);
+  }
+
+
 
   private errorHandler(app: Application): void {
     app.use('*', (req: Request, res: Response, next: NextFunction) => {
