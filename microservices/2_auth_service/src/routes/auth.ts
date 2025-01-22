@@ -1,18 +1,10 @@
+import { read } from '@auth/controllers/signin';
 import express, { Router } from 'express';
 
 
-class AuthRoutes {
-  private router: Router;
+const router: Router = express.Router();
 
-  constructor() {
-    this.router = express.Router();
-  }
-
-  public routes(): Router {
-    // this.router.post('',);
-    return this.router;
-  }
-
+export function authRoutes(): Router {
+  router.post('/signin', read);
+  return router;
 }
-
-export const authRoutes: AuthRoutes = new AuthRoutes();
