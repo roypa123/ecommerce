@@ -8,6 +8,7 @@
     "rootDir": ".",
     "strict": true,
     "noImplicitAny": true,
+    "allowJs": true,
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,
     "moduleResolution": "node",

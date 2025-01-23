@@ -10,6 +10,8 @@ import { config } from '@gateway/config';
 import hpp from 'hpp';
 import helmet from 'helmet';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import specs from './configuration/swagger_config';
 
 
 const SERVER_PORT = 4000;
@@ -54,6 +56,7 @@ export class GatewayServer {
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     }));
 
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
   }
 

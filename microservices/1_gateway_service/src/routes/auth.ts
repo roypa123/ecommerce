@@ -9,14 +9,27 @@ import { Password } from '@gateway/controllers/auth/password';
 
 class AuthRoutes {
   private router: Router;
-  
+
   constructor() {
     this.router = express.Router();
   }
 
   public routes(): Router {
     this.router.post('/auth/signup', SignUp.prototype.create);
+
+   /**
+    * @swagger
+    * /api/gateway/v1/auth/signin:
+    *   get:
+    *     summary: Example endpoint
+    *     responses:
+    *       200:
+    *         description: Successful response
+    */
     this.router.post('/auth/signin', SignIn.prototype.read);
+
+
+
     this.router.post('/auth/signout', Signout.prototype.update);
     this.router.put('/auth/verify-email', VerifyEmail.prototype.update);
     this.router.put('/auth/verify-otp/:otp', VerifyOTP.prototype.update);
