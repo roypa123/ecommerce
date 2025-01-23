@@ -20,7 +20,7 @@ class AuthRoutes {
    /**
     * @swagger
     * /api/gateway/v1/auth/signin:
-    *   get:
+    *   post:
     *     summary: Example endpoint
     *     responses:
     *       200:
