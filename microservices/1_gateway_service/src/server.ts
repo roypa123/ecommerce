@@ -47,6 +47,7 @@ export class GatewayServer {
     );
     app.use(hpp());
     app.use(helmet());
+
     app.use(cors({
       origin: config.CLIENT_URL,
       credentials: true,

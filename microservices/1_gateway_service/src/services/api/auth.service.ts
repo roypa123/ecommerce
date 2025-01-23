@@ -15,7 +15,6 @@ class AuthService {
 
 
   async signIn(body: any): Promise<AxiosResponse> {
-    console.log('manu');
     const response: AxiosResponse = await this.axiosService.axios.post('/signin', body)
     return response;
   }
