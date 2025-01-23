@@ -1,8 +1,9 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "types": "./src/index.d.ts",
-  "description": "Helpers library for Jobber app",
+  "description": "Helpers library for ecommerce app",
+  "private": false,
   "scripts": {
     "build": "npm run build:cjs && npm run build:esm && tsc --outDir build/src && node scripts/build-package.js",
     "build:cjs": "babel src --presets=./scripts/babel-preset.js --extensions .ts,.tsx --ignore src/**/*.specs.tsx --out-dir build/cjs --source-maps",
@@ -15,14 +16,11 @@
     "trailingComma": "es5"
   },
   "keywords": [],
-  "name": "roy_p_a",
+  "name": "@roy_p_a/ecommerce_shared",
   "author": "",
   "repository": {
     "type": "git",
     "url": ""
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "files": [
     "build",
