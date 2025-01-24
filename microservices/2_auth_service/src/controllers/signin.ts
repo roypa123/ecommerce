@@ -11,7 +11,7 @@ export async function read(req: Request, res: Response, next: NextFunction): Pro
 
   if (userData.role === '') {
     console.log('manu')
-    throw  new BadRequestError('Invalid credentials', 'Invalid credentials')
+    throw  new BadRequestError('Invalid credentials', 'Auth microservice: SignIn read() method error','Invalid credentials')
 
   }
 
