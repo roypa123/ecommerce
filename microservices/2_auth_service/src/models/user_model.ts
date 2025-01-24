@@ -8,8 +8,8 @@ export async function createUser(userData: any): Promise<void> {
   try {
     console.log("chimchim123");
 
-    const name = "tinu";
-    const email = "martin@gmail.com";
+    const name = "tinu1";
+    const email = "martin1@gmail.com";
     const password = "marty@1216"
     const role = "admin";
 

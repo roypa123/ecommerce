@@ -11,8 +11,8 @@ export async function create(req: Request, res: Response, next: NextFunction): P
       throw new BadRequestError('Invalid credentials', 'Auth microservice: SignIn read() method error', 'Invalid credentials')
     }
 
-    
-    await createAuthUser("ddfdfd");
+
+    // await createAuthUser("ddfdfd");
 
     res.status(200).json({
       statusCode: 200,
