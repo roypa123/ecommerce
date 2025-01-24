@@ -25,7 +25,7 @@
       { "transform": "typescript-transform-paths", "afterDeclarations": true },
     ],
     "paths": {
-      "@auth/*": ["src/*"]
+      "@auth/*": ["src/*","knexfile.ts"]
     }
   }
 }

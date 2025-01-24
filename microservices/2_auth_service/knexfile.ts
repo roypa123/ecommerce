@@ -52,14 +52,13 @@ import { Knex } from 'knex';
 const config: Knex.Config = {
   client: 'pg',
   connection: {
-    // host: '164.52.200.24',
     user: 'postgres',
     password: 'postgres',
     database: 'auth_ecommerce',
   },
   migrations: {
     tableName: 'knex_migrations',
-    directory: './migrations',
+    directory: './src/migrations',
   },
 };
 
