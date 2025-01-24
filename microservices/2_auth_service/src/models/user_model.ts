@@ -1,32 +1,39 @@
-
-
-// class UserModel {
-
-//   static async createUser(userData) {
-//     const first_name = userData.first_name;
-//     const last_name = userData.last_name;
-//     const email = userData.email;
-//     const role = userData.role;
-//     // const password = await HelperFunction.hashPassword(userData.password);
-//     // const apikey = await HelperFunction.generateApiKey();
-//     const password = "marty@1216"
-//     const access_token = "123456asasasasasa";
-
-//     const createdUser = await knex("user")
-//       .insert({ first_name, last_name, email, password, access_token, role })
-//       .returning([
-//         "user_id",
-//         "name",
-//         "email",
-//         "role",
-//         "access_token",
-//       ]);
-
-//     const createdUser1 = createdUser[0];
-
-//     return createdUser1;
-//   }
+import knexConfig from '../../knexfile';
+import { knex, Knex as KnexType } from 'knex';
+const knexInstance: KnexType = knex(knexConfig);
 
 
 
-// }
+export async function createUser(userData: any): Promise<void> {
+  try {
+    console.log("chimchim123");
+
+    const name = "tinu";
+    const email = "martin@gmail.com";
+    const password = "marty@1216"
+    const role = "admin";
+
+    console.log("tun");
+
+    const createdUser = await knexInstance("users")
+      .insert({ name, email, password })
+      .returning([
+        "user_id",
+        "name",
+        "email",
+        "password",
+      ]);
+
+    console.log("dundo");
+
+    const createdUser1 = createdUser[0];
+
+    return createdUser1;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+

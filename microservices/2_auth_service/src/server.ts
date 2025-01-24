@@ -44,7 +44,6 @@ function routesMiddleware(app: Application): void {
 
 function authErrorHandler(app: Application): void {
   app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
-    console.log("dfdfd");
     if (error instanceof CustomError) {
       res.status(error.statusCode).json(error.serializeErrors());
     }

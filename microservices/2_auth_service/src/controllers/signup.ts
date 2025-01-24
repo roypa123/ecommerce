@@ -1,4 +1,5 @@
 import { BadRequestError } from '@auth/error_handler';
+import { createAuthUser } from '@auth/services/auth.service';
 import { Request, Response, NextFunction } from 'express';
 
 export async function create(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -10,7 +11,8 @@ export async function create(req: Request, res: Response, next: NextFunction): P
       throw new BadRequestError('Invalid credentials', 'Auth microservice: SignIn read() method error', 'Invalid credentials')
     }
 
-    console.log("pinu")
+    
+    await createAuthUser("ddfdfd");
 
     res.status(200).json({
       statusCode: 200,
