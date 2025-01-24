@@ -12,6 +12,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import specs from './configuration/swagger_config';
+import { IErrorResponse, CustomError } from '@gateway/error_handler';
 
 
 const SERVER_PORT = 4000;
@@ -75,24 +76,25 @@ export class GatewayServer {
   private errorHandler(app: Application): void {
     app.use('*', (req: Request, res: Response, next: NextFunction) => {
       const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-      //log.log('error', `${fullUrl} endpoint does not exist.`, '');
       res.status(StatusCodes.NOT_FOUND).json({ message: 'The endpoint called does not exist.' });
       next();
     });
 
-    // app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
-    //   if (error instanceof CustomError) {
-    //     log.log('error', `GatewayService ${error.comingFrom}:`, error);
-    //     res.status(error.statusCode).json(error.serializeErrors());
-    //   }
+    app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
+      if (error instanceof CustomError) {
+        res.status(error.statusCode).json(error.serializeErrors());
+      }
 
-    //   if (isAxiosError(error)) {
-    //     log.log('error', `GatewayService Axios Error - ${error?.response?.data?.comingFrom}:`, error);
-    //     res.status(error?.response?.data?.statusCode ?? DEFAULT_ERROR_CODE).json({ message: error?.response?.data?.message ?? 'Error occurred.' });
-    //   }
-
-    //   next();
-    // });
+      if (isAxiosError(error)) {
+        res.status(error?.response?.data?.statusCode ?? DEFAULT_ERROR_CODE).json({
+          statusCode:error?.response?.data?.statusCode ?? 500 ,
+          status:error?.response?.data?. status ?? "error",
+          message: error?.response?.data?.message ?? 'Error occurred.',
+          error:error?.response?.data?. error ?? "error",
+        });
+      }
+      next();
+    });
   }
 
 
@@ -102,8 +104,6 @@ export class GatewayServer {
       this.startHttpServer(httpServer);
     } catch (error) {
       console.log('error');
-
-      //log.log('error', 'GatewayService startServer() error method:', error)
     }
   }
 
@@ -116,11 +116,8 @@ export class GatewayServer {
       });
 
     } catch (error) {
-      //log.log('error', 'GatewayService startserver() error method:', error)
       console.log('error');
     }
-
-
   }
 
 

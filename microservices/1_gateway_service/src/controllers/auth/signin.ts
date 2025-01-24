@@ -1,43 +1,25 @@
 import { AxiosResponse } from 'axios';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { authService } from '@gateway/services/api/auth.service';
 import { StatusCodes } from 'http-status-codes';
 
 export class SignIn {
-  public async read(req: Request, res: Response): Promise<void> {
+  public async read(req: Request, res: Response, next: NextFunction): Promise<void> {
 
     try {
       const response: AxiosResponse = await authService.signIn(req.body);
-
-      const { status, status_code, message, token, results } = response.data;
+      const { statusCode,status , message, token, results } = response.data;
       req.session = { jwt: token ?? "" };
-      res.status(status).json({
-        status: status,
-        status_code: status_code ?? "",
+      res.status(statusCode).json({
+        statusCode: statusCode ?? "",
+        status: status ?? 200,
         message: message ?? "",
         results: results ?? "",
       });
 
-    } catch (error: any) {
-      console.log(error)
-
-      if (error.response) {
-        const { status, status_code, message, errors } = error.response.data;
-        res.status(status_code ?? StatusCodes.INTERNAL_SERVER_ERROR).json({ status, status_code, message, errors });
-      } else {
-
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-          code: "500",
-          status: "INTERNAL SERVER ERROR",
-          message: "An unexpected error occurred",
-          errors: ["An unexpected error occurred"],
-        });
-      }
-
+    } catch (error) {
+      next(error)
     }
-
-
-
 
 
   }
