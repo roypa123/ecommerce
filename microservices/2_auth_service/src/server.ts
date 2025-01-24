@@ -1,16 +1,13 @@
 import { Application, Request, Response, json, urlencoded, NextFunction } from 'express';
-import { Logger } from "winston";
 import http from 'http';
-import { StatusCodes } from 'http-status-codes';
-import { isAxiosError } from 'axios';
 import compression from 'compression';
 import { appRoutes } from './routes';
-import cookieSession from 'cookie-session';
 
 import { config } from '@auth/config';
 import hpp from 'hpp';
 import helmet from 'helmet';
 import cors from 'cors';
+import { IErrorResponse, CustomError } from '@auth/error_handler';
 
 
 const SERVER_PORT = 4001;
@@ -23,19 +20,15 @@ export function start(app: Application): void {
   startServer(app);
 }
 
-
 function securityMiddleware(app: Application): void {
   app.set('trust proxy', 1);
-
   app.use(hpp());
   app.use(helmet());
   app.use(cors({
-    origin: config.CLIENT_URL,
+    origin: config.API_GATEWAY_URL,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   }));
-
-
 }
 
 function standardMiddleware(app: Application): void {
@@ -50,19 +43,23 @@ function routesMiddleware(app: Application): void {
 
 
 function authErrorHandler(app: Application): void {
+  app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
+    console.log("dfdfd");
+    if (error instanceof CustomError) {
+      res.status(error.statusCode).json(error.serializeErrors());
+    }
+    next();
+  });
 }
 
 function startServer(app: Application): void {
   try {
     const httpServer: http.Server = new http.Server(app);
-    //log.info(`Authentication server has started with process id ${process.pid}`);
     console.log(`Authentication server has started with process id ${process.pid}`);
     httpServer.listen(SERVER_PORT, () => {
-      //log.info(`Authentication server running on port ${SERVER_PORT}`);
       console.log(`Authentication server running on port ${SERVER_PORT}`)
     });
   } catch (error) {
-    //log.log('error', 'AuthService startServer() method error:', error);
     console.log(`error, AuthService startServer() method error:, ${error}`)
   }
 }

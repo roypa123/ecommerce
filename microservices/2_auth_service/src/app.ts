@@ -1,5 +1,4 @@
 import express, { Express } from 'express';
-import { config } from '@auth/config';
 import { start } from '@auth/server';
 
 const initialize = (): void => {

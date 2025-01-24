@@ -19,6 +19,7 @@ export class SignIn {
       });
 
     } catch (error: any) {
+      console.log(error)
 
       if (error.response) {
         const { status, status_code, message, errors } = error.response.data;

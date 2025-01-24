@@ -1,5 +1,5 @@
 {
-    "name": "ecommerce_gateway",
+    "name": "ecommerce_auth",
     "version": "1.0.0",
     "description": "",
     "main": "app.js",
@@ -30,7 +30,7 @@
         "@types/knex": "^0.15.2",
         "@typescript-eslint/eslint-plugin": "^8.21.0",
         "@typescript-eslint/parser": "^8.21.0",
-        "eslint": "^9.18.0",
+
         "eslint-config-prettier": "^10.0.1",
         "eslint-plugin-import": "^2.31.0",
         "jest": "^29.7.0",
@@ -42,7 +42,7 @@
         "tsconfig-paths": "^4.2.0"
     },
     "dependencies": {
-        "@roy_p_a/ecommerce_shared": "^0.0.2",
+
         "axios": "^1.7.9",
         "bcrypt": "^5.1.1",
         "compression": "^1.7.5",
