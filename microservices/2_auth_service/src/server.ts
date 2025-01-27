@@ -9,9 +9,13 @@ import cors from 'cors';
 import { IErrorResponse, CustomError } from '@auth/error_handler';
 import { Channel } from 'amqplib';
 import { createConnection } from '@auth/queues/connection';
+import { Logger } from 'winston';
+import { winstonLogger } from './logger';
 
 
 const SERVER_PORT = 4001;
+
+const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'authenticationServer', 'debug');
 
 export let authChannel: Channel;
 
@@ -52,6 +56,7 @@ async function startQueues(): Promise<void> {
 
 function authErrorHandler(app: Application): void {
   app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
+    log.log('error', `AuthService ${error.comingFrom}:`, error);
     if (error instanceof CustomError) {
       res.status(error.statusCode).json(error.serializeErrors());
     }
@@ -62,12 +67,15 @@ function authErrorHandler(app: Application): void {
 function startServer(app: Application): void {
   try {
     const httpServer: http.Server = new http.Server(app);
-    console.log(`Authentication server has started with process id ${process.pid}`);
+    // console.log(`Authentication server has started with process id ${process.pid}`);
+    log.info(`Authentication server has started with process id ${process.pid}`);
     httpServer.listen(SERVER_PORT, () => {
-      console.log(`Authentication server running on port ${SERVER_PORT}`)
+      //console.log(`Authentication server running on port ${SERVER_PORT}`)
+      log.info(`Authentication server running on port ${SERVER_PORT}`);
     });
   } catch (error) {
-    console.log(`error, AuthService startServer() method error:, ${error}`)
+    //console.log(`error, AuthService startServer() method error:, ${error}`)
+    log.log('error', 'AuthService startServer() method error:', error);
   }
 }
 
