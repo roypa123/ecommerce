@@ -67,14 +67,14 @@ function authErrorHandler(app: Application): void {
 function startServer(app: Application): void {
   try {
     const httpServer: http.Server = new http.Server(app);
-    // console.log(`Authentication server has started with process id ${process.pid}`);
+
     log.info(`Authentication server has started with process id ${process.pid}`);
     httpServer.listen(SERVER_PORT, () => {
-      //console.log(`Authentication server running on port ${SERVER_PORT}`)
+
       log.info(`Authentication server running on port ${SERVER_PORT}`);
     });
   } catch (error) {
-    //console.log(`error, AuthService startServer() method error:, ${error}`)
+
     log.log('error', 'AuthService startServer() method error:', error);
   }
 }
