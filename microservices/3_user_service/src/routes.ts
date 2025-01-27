@@ -1,4 +1,5 @@
 import { Application } from "express";
+import { userRoutes } from "./routes/user";
 
 const USER_BASE_PATH = '/api/v1/user';
 
