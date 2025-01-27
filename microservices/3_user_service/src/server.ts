@@ -8,6 +8,9 @@ import compression from "compression";
 import { verify } from "jsonwebtoken";
 import { appRoutes } from "./routes";
 import { CustomError, IErrorResponse } from "./error_handler";
+import { Channel } from 'amqplib';
+import { createConnection } from './queues/connection';
+import { consumeAuthEmailMessages } from './queues/user.consumer';
 
 const SERVER_PORT = 4003;
 
@@ -15,6 +18,7 @@ export function start(app: Application): void {
   securityMiddleware(app);
   standardMiddleware(app);
   routesMiddleware(app);
+  startQueues();
   usersErrorHandler(app);
   startServer(app);
 };
@@ -41,6 +45,12 @@ const standardMiddleware = (app: Application): void => {
 const routesMiddleware = (app: Application): void => {
   appRoutes(app);
 };
+
+async function startQueues(): Promise<void> {
+  const emailChannel: Channel = await createConnection() as Channel;
+  await consumeAuthEmailMessages(emailChannel);
+}
+
 
 
 const usersErrorHandler = (app: Application): void => {

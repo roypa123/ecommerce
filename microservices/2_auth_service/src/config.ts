@@ -7,12 +7,14 @@ class Config {
   public GATEWAY_JWT_TOKEN: string | undefined;
   public API_GATEWAY_URL: string | undefined;
   public CLIENT_URL: string | undefined;
+  public RABBITMQ_ENDPOINT: string | undefined;
 
   constructor() {
     this.NODE_ENV = process.env.NODE_ENV || '';
     this.GATEWAY_JWT_TOKEN = process.env.GATEWAY_JWT_TOKEN || '';
     this.API_GATEWAY_URL = process.env.API_GATEWAY_URL || '';
     this.CLIENT_URL = process.env.CLIENT_URL || '';
+    this.RABBITMQ_ENDPOINT = process.env.RABBITMQ_ENDPOINT || '';
   }
 }
 

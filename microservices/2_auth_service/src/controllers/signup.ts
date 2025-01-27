@@ -1,4 +1,6 @@
 import { BadRequestError } from '@auth/error_handler';
+import { publishDirectMessage } from '@auth/queues/auth.producer';
+import { authChannel } from '@auth/server';
 import { createAuthUser } from '@auth/services/auth.service';
 import { Request, Response, NextFunction } from 'express';
 
@@ -11,8 +13,14 @@ export async function create(req: Request, res: Response, next: NextFunction): P
       throw new BadRequestError('Invalid credentials', 'Auth microservice: SignIn read() method error', 'Invalid credentials')
     }
 
-
-    // await createAuthUser("ddfdfd");
+    const message = { text: 'Hello from Microservice 1' };
+    await publishDirectMessage(
+      authChannel,
+      'auth_user',
+      'auth-user',
+      JSON.stringify(message),
+      'authentication from auth to user-service'
+    );
 
     res.status(200).json({
       statusCode: 200,

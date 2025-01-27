@@ -2,20 +2,24 @@ import { Application, Request, Response, json, urlencoded, NextFunction } from '
 import http from 'http';
 import compression from 'compression';
 import { appRoutes } from './routes';
-
 import { config } from '@auth/config';
 import hpp from 'hpp';
 import helmet from 'helmet';
 import cors from 'cors';
 import { IErrorResponse, CustomError } from '@auth/error_handler';
+import { Channel } from 'amqplib';
+import { createConnection } from '@auth/queues/connection';
 
 
 const SERVER_PORT = 4001;
+
+export let authChannel: Channel;
 
 export function start(app: Application): void {
   securityMiddleware(app);
   standardMiddleware(app);
   routesMiddleware(app);
+  startQueues();
   authErrorHandler(app);
   startServer(app);
 }
@@ -39,6 +43,10 @@ function standardMiddleware(app: Application): void {
 
 function routesMiddleware(app: Application): void {
   appRoutes(app);
+}
+
+async function startQueues(): Promise<void> {
+  authChannel = await createConnection() as Channel;
 }
 
 
@@ -74,17 +82,7 @@ function startServer(app: Application): void {
 
 
 
-// private async startServer(app: Application): Promise<void> {
-//   try {
-//     const httpServer: http.Server = new http.Server(app);
-//     //log.info(`Authentication server has started with process id ${process.pid}`);
-//     console.log(`Authentication server has started with process id ${process.pid}`);
-//   } catch (error) {
-//     //log.log('error', 'AuthService startServer() method error:', error);
-//     console.log(`error AuthService startServer() method error:, ${error}`);
 
-//   }
-// }
 
 
 
