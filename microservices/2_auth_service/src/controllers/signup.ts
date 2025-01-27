@@ -14,13 +14,14 @@ export async function create(req: Request, res: Response, next: NextFunction): P
     }
 
     const message = { text: 'Hello from Microservice 1' };
-    await publishDirectMessage(
+    const response = await publishDirectMessage(
       authChannel,
       'auth_user',
-      'auth-user',
+      'auth_user',
       JSON.stringify(message),
       'authentication from auth to user-service'
     );
+    console.log('Response from Service B:', response);
 
     res.status(200).json({
       statusCode: 200,
