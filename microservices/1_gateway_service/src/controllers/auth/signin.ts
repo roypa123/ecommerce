@@ -8,13 +8,13 @@ export class SignIn {
 
     try {
       const response: AxiosResponse = await authService.signIn(req.body);
-      const { statusCode,status , message, token, results } = response.data;
-      req.session = { jwt: token ?? "" };
-      res.status(statusCode).json({
-        statusCode: statusCode ?? "",
+      const { status_code, status, message, data } = response.data;
+      req.session = { jwt: data.access_token ?? "" };
+      res.status(status_code).json({
+        status_code: status_code ?? "",
         status: status ?? 200,
         message: message ?? "",
-        results: results ?? "",
+        results: data ?? "",
       });
 
     } catch (error) {

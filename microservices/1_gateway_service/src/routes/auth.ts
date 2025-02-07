@@ -16,18 +16,7 @@ class AuthRoutes {
 
   public routes(): Router {
     this.router.post('/auth/signup', SignUp.prototype.create);
-
     this.router.post('/auth/create_account_otp', SignUp.prototype.create_account_otp);
-
-   /**
-    * @swagger
-    * /api/gateway/v1/auth/signin:
-    *   post:
-    *     summary: Example endpoint
-    *     responses:
-    *       200:
-    *         description: Successful response
-    */
     this.router.post('/auth/signin', SignIn.prototype.read);
 
 

@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from 'express';
 
 export async function read(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-
+    console.log("dsdsds")
     const userData = req.body;
     if (userData.role === '') {
       console.log('manu')
@@ -14,7 +14,7 @@ export async function read(req: Request, res: Response, next: NextFunction): Pro
                                 'Invalid credentials')
     }
 
-    console.log("pinu")
+
 
     res.status(200).json({
       statusCode: 200,
