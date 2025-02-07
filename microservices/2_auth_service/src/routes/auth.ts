@@ -12,7 +12,7 @@ const router: Router = express.Router();
 export function authRoutes(): Router {
 
   router.post('/signup', create);
-  router.post('create_account_otp', createAccountOtp);
+  router.post('/create_account_otp', createAccountOtp);
   router.post('/signin', read);
   router.put('/verify-email', update);
   router.put('/verify-otp/:otp', updateOTP);

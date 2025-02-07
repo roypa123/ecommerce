@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import * as crypto from "crypto";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
-//import constants from "../constants";
+import { config } from '@auth/config';
 import { Request, Response, NextFunction } from "express";
 
 class HelperFunction {
@@ -25,23 +25,23 @@ class HelperFunction {
     return otpRegex.test(otp);
   }
 
-  // static async generateAccessToken(user: object): Promise<string> {
-  //   try {
-  //     return jwt.sign(user, constants.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
-  //   } catch (error) {
-  //     console.error("Error generating access token:", error);
-  //     throw new Error("Failed to generate access token.");
-  //   }
-  // }
+  static async generateAccessToken(user: object): Promise<string> {
+    try {
+      return jwt.sign(user, config.ACCESS_TOKEN_SECRET!, { expiresIn: "15m" });
+    } catch (error) {
+      console.error("Error generating access token:", error);
+      throw new Error("Failed to generate access token.");
+    }
+  }
 
-  // static async generateRefreshToken(user: object): Promise<string> {
-  //   try {
-  //     return jwt.sign(user, constants.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
-  //   } catch (error) {
-  //     console.error("Error generating refresh token:", error);
-  //     throw new Error("Failed to generate refresh token.");
-  //   }
-  // }
+  static async generateRefreshToken(user: object): Promise<string> {
+    try {
+      return jwt.sign(user, config.REFRESH_TOKEN_SECRET!, { expiresIn: "7d" });
+    } catch (error) {
+      console.error("Error generating refresh token:", error);
+      throw new Error("Failed to generate refresh token.");
+    }
+  }
 
   static generateImageName(): string {
     const uuid = uuidv4();

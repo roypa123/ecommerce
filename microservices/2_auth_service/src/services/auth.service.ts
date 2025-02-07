@@ -1,4 +1,3 @@
-import { createUser } from "../models/user_model"
 import knexConfig from "../../knexfile";
 import knex from "knex";
 import HelperFunction from '@auth/helpers/helperfunction';
@@ -62,6 +61,79 @@ export async function createAuthUser(userData: any): Promise<any | undefined> {
     throw error
   }
 
+}
+
+
+export async function createAccountOtp1(userData: any): Promise<any | undefined> {
+  const email = userData.email;
+  const otp = userData.otp;
+
+
+
+  try {
+    const result = await db.transaction(async (trx) => {
+
+      try {
+
+        const { user_id: user_id4, name: name1, email: email1, role: role1, status: status1 } = await trx("user")
+          .select("user_id", "name", "email", "role", "status")
+          .where({ email }).first();
+
+        const { otp_for_create_acount: otp1, expiry_at: expiryAt1 } = await trx("otp_for_createaccount")
+          .select("otp_for_create_acount", "expiry_at")
+          .where({ user_id: user_id4 }).first();
+
+
+        const dateNow = Date.now();
+
+        if (dateNow < expiryAt1) {
+          if (otp == otp1) {
+
+            const user = {
+              user_id: user_id4,
+              name: name1,
+              email: email1,
+              role: role1,
+              status: status1
+            }
+            const access_token = await HelperFunction.generateAccessToken(user);
+            const refresh_token = await HelperFunction.generateRefreshToken(user);
+
+            const userData2 = await trx("user")
+              .where({ user_id: user_id4 })
+              .update({
+                access_token: access_token,
+                refresh_token: refresh_token,
+                status: 1
+              })
+              .returning([
+                "user_id",
+                "name",
+                "email",
+                "role",
+                "access_token",
+                "refresh_token",
+                "status"
+              ]
+              )
+            return userData2;
+          } else {
+            throw new Error("Incorrect Otp");
+          }
+        } else {
+          throw new Error("Failed to create user.");
+        }
+      } catch (error) {
+        await trx.rollback();
+        throw error
+      }
+    });
+    return result;
+  } catch (error) {
+    throw error
+  }
+
 
 
 }
+

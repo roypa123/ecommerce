@@ -24,13 +24,11 @@ export class SignUp {
 
 
   public async create_account_otp(req: Request, res: Response, next: NextFunction): Promise<void> {
-
-    console.log("asasa")
     try {
       const response: AxiosResponse = await authService.create_account_otp(req.body);
       console.log(response.data);
       const { status_code, status, message, data } = response.data;
-      // req.session = { jwt: token ?? "" };
+      req.session = { jwt: data.access_token ?? "" };
       res.status(status_code).json({
         status_code: status_code ?? "",
         status: status ?? 200,

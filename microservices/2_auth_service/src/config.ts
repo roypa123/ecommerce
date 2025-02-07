@@ -9,6 +9,8 @@ class Config {
   public CLIENT_URL: string | undefined;
   public RABBITMQ_ENDPOINT: string | undefined;
   public ELASTIC_SEARCH_URL: string | undefined;
+  public ACCESS_TOKEN_SECRET: string | undefined;
+  public REFRESH_TOKEN_SECRET: string | undefined;
 
   constructor() {
     this.NODE_ENV = process.env.NODE_ENV || '';
@@ -17,6 +19,8 @@ class Config {
     this.CLIENT_URL = process.env.CLIENT_URL || '';
     this.RABBITMQ_ENDPOINT = process.env.RABBITMQ_ENDPOINT || '';
     this.ELASTIC_SEARCH_URL = process.env.ELASTIC_SEARCH_URL || '';
+    this.ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '';
+    this.REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || '';
   }
 }
 
