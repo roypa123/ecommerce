@@ -6,18 +6,41 @@ import { StatusCodes } from 'http-status-codes';
 export class SignUp {
   public async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      console.log("ravi");
+
       const response: AxiosResponse = await authService.signUp(req.body);
-      const { statusCode, status, message, token, results } = response.data;
-      req.session = { jwt: token ?? "" };
-      res.status(statusCode).json({
-        statusCode: statusCode ?? "",
+      console.log(response.data);
+      const { status_code, status, message, data } = response.data;
+      // req.session = { jwt: token ?? "" };
+      res.status(status_code).json({
+        status_code: status_code ?? "",
         status: status ?? 200,
         message: message ?? "",
-        results: results ?? "",
+        results: data ?? "",
       });
     } catch (error) {
       next(error)
     }
   }
+
+
+  public async create_account_otp(req: Request, res: Response, next: NextFunction): Promise<void> {
+
+    console.log("asasa")
+    try {
+      const response: AxiosResponse = await authService.create_account_otp(req.body);
+      console.log(response.data);
+      const { status_code, status, message, data } = response.data;
+      // req.session = { jwt: token ?? "" };
+      res.status(status_code).json({
+        status_code: status_code ?? "",
+        status: status ?? 200,
+        message: message ?? "",
+        results: data ?? "",
+      });
+    } catch (error) {
+      next(error)
+    }
+  }
+
+
 }

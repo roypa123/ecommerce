@@ -13,6 +13,19 @@ class AuthService {
     axiosAuthInstance = this.axiosService.axios;
   }
 
+  async signUp(body: any): Promise<AxiosResponse> {
+    const response: AxiosResponse = await this.axiosService.axios.post('/signup', body);
+    return response;
+  }
+
+  async create_account_otp(body: any): Promise<AxiosResponse> {
+    const response: AxiosResponse = await this.axiosService.axios.post('/create_account_otp', body);
+    return response;
+  }
+
+
+
+
   async getRefreshToken(username: string): Promise<AxiosResponse> {
     const response: AxiosResponse = await axiosAuthInstance.get(`/refresh-token/${username}`);
     return response;
@@ -38,10 +51,7 @@ class AuthService {
     return response;
   }
 
-  async signUp(body: any): Promise<AxiosResponse> {
-    const response: AxiosResponse = await this.axiosService.axios.post('/signup', body);
-    return response;
-  }
+
 
 
   async signIn(body: any): Promise<AxiosResponse> {

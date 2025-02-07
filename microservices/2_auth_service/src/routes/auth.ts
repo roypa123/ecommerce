@@ -1,3 +1,4 @@
+import { createAccountOtp } from '@auth/controllers/create_account_otp';
 import { changePassword, forgotPassword, resetPassword } from '@auth/controllers/password';
 import { read } from '@auth/controllers/signin';
 import { create } from '@auth/controllers/signup';
@@ -9,8 +10,9 @@ import express, { Router } from 'express';
 const router: Router = express.Router();
 
 export function authRoutes(): Router {
-  
+
   router.post('/signup', create);
+  router.post('create_account_otp', createAccountOtp);
   router.post('/signin', read);
   router.put('/verify-email', update);
   router.put('/verify-otp/:otp', updateOTP);
