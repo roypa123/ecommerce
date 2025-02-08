@@ -50,7 +50,7 @@ class AuthService {
     const response: AxiosResponse = await axiosAuthInstance.post('/resend-email', data);
     return response;
   }
-  
+
   async signIn(body: any): Promise<AxiosResponse> {
     const response: AxiosResponse = await this.axiosService.axios.post('/signin', body)
     return response;
