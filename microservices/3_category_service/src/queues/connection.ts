@@ -1,5 +1,5 @@
 
-import { config } from '@users/config';
+import { config } from '@category/config';
 import client, { Channel, Connection } from 'amqplib';
 
 async function createConnection(): Promise<Channel | undefined> {

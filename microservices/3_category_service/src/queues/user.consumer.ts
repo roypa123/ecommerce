@@ -1,6 +1,6 @@
 
 import { Channel, ConsumeMessage } from 'amqplib';
-import { createConnection } from '@users/queues/connection';
+import { createConnection } from '@category/queues/connection';
 
 async function consumeAuthEmailMessages(channel: Channel): Promise<void> {
   try {

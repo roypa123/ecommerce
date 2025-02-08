@@ -1,4 +1,4 @@
-import { email } from '@users/controllers/user/get';
+import { email } from '@category/controllers/user/get';
 import express, { Router } from 'express';
 
 const router: Router = express.Router();
