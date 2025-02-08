@@ -9,6 +9,7 @@ class CategoryRoutes {
   }
 
   public routes(): Router {
+    
     this.router.post('/category/category', Categories.prototype.category);
     return this.router;
   }

@@ -10,6 +10,7 @@ class Config {
   public SECRET_KEY_TWO: string | undefined;
   public CLIENT_URL: string | undefined;
   public AUTH_BASE_URL: string | undefined;
+  public CATEGORY_BASE_URL: string | undefined;
 
 
   constructor() {
@@ -19,6 +20,7 @@ class Config {
     this.SECRET_KEY_TWO = process.env.SECRET_KEY_TWO || '';
     this.CLIENT_URL = process.env.CLIENT_URL || '';
     this.AUTH_BASE_URL = process.env.AUTH_BASE_URL || '';
+    this.CATEGORY_BASE_URL = process.env.CATEGORY_BASE_URL || '';
   }
 }
 
