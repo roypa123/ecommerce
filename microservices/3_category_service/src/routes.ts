@@ -1,10 +1,10 @@
 import { Application } from "express";
-import { userRoutes } from "./routes/user";
+import { categoryRoutes } from "./routes/category";
 
-const USER_BASE_PATH = '/api/v1/user';
+const CATEGORY_BASE_PATH = '/api/v1/category';
 
 const appRoutes = (app: Application): void => {
-  app.use(USER_BASE_PATH, userRoutes());
+  app.use(CATEGORY_BASE_PATH, categoryRoutes());
 };
 
 export { appRoutes };
