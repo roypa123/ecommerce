@@ -33,7 +33,6 @@ export async function createAccountOtp(req: Request, res: Response, next: NextFu
     }
 
     const userExists1 = await userExists(userData.email);
-
     if (!userExists1) {
       throw new BadRequestError('Invalid credentials', 'Auth microservice: SignIn read() method error', "Invalid email and password");
     }
@@ -46,8 +45,8 @@ export async function createAccountOtp(req: Request, res: Response, next: NextFu
     });
 
     const result = await createAccountOtp1(requestVO.data);
-
     const successResponse = new ResponseVO(200, "Success", "Success", result);
+    console.log(successResponse)
     res.status(200).json(successResponse);
   } catch (error) {
     next(error)

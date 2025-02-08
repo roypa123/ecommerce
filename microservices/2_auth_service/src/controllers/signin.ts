@@ -10,7 +10,7 @@ import { Request, Response, NextFunction } from 'express';
 export async function read(req: Request, res: Response, next: NextFunction): Promise<void> {
   const userData = req.body;
   try {
-    console.log("dsdsds")
+
     if (!userData.email || !userData.password) {
       throw new BadRequestError('Invalid credentials',
         'Auth microservice: SignIn read() method error',
@@ -37,7 +37,12 @@ export async function read(req: Request, res: Response, next: NextFunction): Pro
       throw new BadRequestError('Invalid credentials', 'Auth microservice: SignIn read() method error', "Invalid email and password");
     }
 
+
+
     const isStatus = await userStatus(userData.email);
+
+    
+
 
     if(isStatus.status == 0){
 
@@ -63,7 +68,7 @@ export async function read(req: Request, res: Response, next: NextFunction): Pro
     const successResponse = new ResponseVO(200, "Success", "Success", result);
     res.status(200).json(successResponse);
 
-    
+
   } catch (error) {
     next(error)
   }

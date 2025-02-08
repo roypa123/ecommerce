@@ -6,6 +6,8 @@ const db = knex(knexConfig);
 
 
 export async function userExists(data: any): Promise<any | undefined> {
+
+
   try {
     const existingUser = await db("user").where({ email: data }).first();
     return existingUser;
@@ -70,6 +72,8 @@ export async function createAccountOtp1(userData: any): Promise<any | undefined>
 
 
 
+
+
   try {
     const result = await db.transaction(async (trx) => {
 
@@ -78,6 +82,8 @@ export async function createAccountOtp1(userData: any): Promise<any | undefined>
         const { user_id: user_id4, name: name1, email: email1, role: role1, status: status1 } = await trx("user")
           .select("user_id", "name", "email", "role", "status")
           .where({ email }).first();
+
+        console.log("hjjki")
 
         const { otp_for_create_acount: otp1, expiry_at: expiryAt1 } = await trx("otp_for_createaccount")
           .select("otp_for_create_acount", "expiry_at")
@@ -116,6 +122,7 @@ export async function createAccountOtp1(userData: any): Promise<any | undefined>
                 "status"
               ]
               )
+
             return userData2;
           } else {
             throw new Error("Incorrect Otp");
@@ -151,6 +158,7 @@ export async function userStatus(data: any): Promise<any | undefined> {
 export async function loginUser(userData: any): Promise<any | undefined> {
   const email = userData.email;
   const plainPassword = userData.password;
+  console.log("tintu");
   try {
 
     const userData1 = await db("user")
@@ -182,7 +190,7 @@ export async function loginUser(userData: any): Promise<any | undefined> {
       const access_token = await HelperFunction.generateAccessToken(user);
       const refresh_token = await HelperFunction.generateRefreshToken(user);
 
-      const userData2 = await knex("user")
+      const userData2 = await db("user")
         .where({ user_id: userData1.user_id })
         .update({
           access_token: access_token,
