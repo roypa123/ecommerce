@@ -5,10 +5,16 @@ import upload  from '../configuration/multer_config';
 const router: Router = express.Router();
 
 const categoryRoutes = (): Router => {
-  router.post('/category',upload.single('image'),(req,res,next)=>{
+  router.post('/category',
+    upload.single('image'),
+    (req,res,next)=>{
+    console.log("Request Body:", req.body);
     console.log("File Received:", req.file);
-    next();
-  }, createCategory);
+
+     next();
+  },
+
+  createCategory);
   return router;
 };
 
