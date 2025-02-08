@@ -132,8 +132,86 @@ export async function createAccountOtp1(userData: any): Promise<any | undefined>
   } catch (error) {
     throw error
   }
+}
+
+export async function userStatus(data: any): Promise<any | undefined> {
+  try {
+    const status = await db("user")
+      .select("status")
+      .where({ email: data })
+      .first();
+    return status
+  } catch (error) {
+    console.error(error);
+    throw Error("User checking error occured")
+  }
+}
+
+
+export async function loginUser(userData: any): Promise<any | undefined> {
+  const email = userData.email;
+  const plainPassword = userData.password;
+  try {
+
+    const userData1 = await db("user")
+      .select(
+        "user_id",
+        "name",
+        "email",
+        "role",
+        "password",
+        "status"
+      )
+      .where({ email: email })
+      .first();
+
+    const comparePassword = await HelperFunction.comparePasswords(
+      plainPassword,
+      userData1.password
+    );
+
+    const user = {
+      user_id: userData1.user_id,
+      name: userData1.name,
+      email: userData1.email,
+      role: userData1.role,
+      status: userData1.status
+    }
+    if (comparePassword) {
+
+      const access_token = await HelperFunction.generateAccessToken(user);
+      const refresh_token = await HelperFunction.generateRefreshToken(user);
+
+      const userData2 = await knex("user")
+        .where({ user_id: userData1.user_id })
+        .update({
+          access_token: access_token,
+          refresh_token: refresh_token
+        })
+        .returning([
+          "user_id",
+          "name",
+          "email",
+          "role",
+          "access_token",
+          "refresh_token",
+          "status"]
+        )
+      return userData2;
+    } else {
+      throw Error("Incorrect Password");
+    }
 
 
 
+
+
+
+
+
+  } catch (error) {
+    console.error(error);
+    throw Error("User checking error occured")
+  }
 }
 
